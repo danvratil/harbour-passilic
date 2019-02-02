@@ -1,0 +1,3 @@
+[submodule "3rdparty/kitemmodels"]
+	path = 3rdparty/kitemmodels
+	url = git://anongit.kde.org/kitemmodels.git
