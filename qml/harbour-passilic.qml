@@ -24,6 +24,12 @@ ApplicationWindow
     }
 
     Component {
+        id: passphraseRequester
+
+        PassphraseRequester {}
+    }
+
+    Component {
         id: passwordsPage
 
         PasswordListPage {

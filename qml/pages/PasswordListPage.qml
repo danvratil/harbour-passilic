@@ -12,6 +12,7 @@ Page {
 
 
     signal folderSelected(var index, var name)
+    signal passwordRequested(var requester)
 
 
     SilicaListView {
@@ -32,42 +33,105 @@ Page {
 
             delegate: ListItem {
                 id: listItem
-                height: Theme.itemSizeSmall
+
+                property var password : null
+
+                contentHeight: password === null ? Theme.itemSizeSmall : Theme.itemSizeLarge
 
                 Row {
-
-                    spacing: Theme.paddingMedium
-
                     anchors {
-                        left: parent.left
+                        fill: parent
                         leftMargin: Theme.horizontalPageMargin
-                        right: parent.right
                         rightMargin: Theme.horizontalPageMargin
                         verticalCenter: parent.verticalCenter
+                        topMargin: Theme.paddingMedium
                     }
 
-                    Image {
-                        anchors.verticalCenter: parent.verticalCenter
-                        source:  "image://theme/"
-                                    + ((model.type === PasswordsModel.FolderEntry) ? "icon-m-folder" : "icon-m-device-lock")
-                                    + "?"
-                                    + (listItem.highlighted ? Theme.highlightColor : Theme.primaryColor)
-                        width: Theme.iconSizeSmall
-                        height: width
+                    Column {
+                        spacing: Theme.paddingSmall
+                        width: parent.width
+
+                        Row {
+                            spacing: Theme.paddingMedium
+
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                source:  "image://theme/"
+                                            + ((model.type === PasswordsModel.FolderEntry) ? "icon-m-folder" : "icon-m-device-lock")
+                                            + "?"
+                                            + (listItem.highlighted ? Theme.highlightColor : Theme.primaryColor)
+                                width: Theme.iconSizeSmall
+                                height: width
+                            }
+
+                            Label {
+                                id: label
+                                text: model.name
+                            }
+                        }
+
+                        Row {
+                            visible: password !== null
+                            width: parent.width
+
+                            Label {
+                                id: errorLabel
+
+                                visible: password !== null && password.hasError
+
+                                text: password ? password.error : ""
+                                font.pixelSize: Theme.fontSizeTiny
+                            }
+
+                            Label {
+                                id: okLabel
+
+                                visible: password !== null && password.valid
+
+                                text: qsTr("Password copied to clipboard")
+                                font.pixelSize: Theme.fontSizeTiny
+                            }
+                        }
+                    }
+                }
+
+                RemorseItem {
+                    id: remorse
+
+                    cancelText: qsTr("Expire password")
+
+                    // HACK: override RemorseItem._execute() to act as cancel when the timer expires
+                    function _execute(closeAfterExecute) {
+                        cancel()
                     }
 
-                    Label {
-                        id: label
-                        text: model.name
+                    onCanceled: {
+                        if (listItem.password) {
+                            listItem.password.expirePassword();
+                        }
                     }
-
                 }
 
                 onClicked: {
                     if (model.type === PasswordsModel.FolderEntry) {
                         passwordListPage.folderSelected(delegateModel.modelIndex(index), model.name);
                     } else {
-                        console.log("Password for " + model.name + " requested");
+                        model.password.requestPassword()
+                        var dialog = pageStack.push(Qt.resolvedUrl("PassphraseRequester.qml"),
+                                                    { "requester": model.password })
+                        dialog.done.connect(function() {
+                            listItem.password = model.password
+                            listItem.password.validChanged.connect(function() {
+                                if (listItem.password.valid) {
+                                    remorse.execute(listItem, qsTr("Password will expire"),
+                                                    function() {
+                                                        if (listItem.password) {
+                                                            listItem.password.expirePassword();
+                                                        }
+                                                    }, listItem.password.defaultTimeout);
+                                }
+                            });
+                        });
                     }
                 }
             }

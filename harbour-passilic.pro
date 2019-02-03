@@ -31,7 +31,8 @@ DISTFILES += \
     rpm/harbour-passilic.spec \
     rpm/harbour-passilic.yaml \
     translations/*.ts \
-    harbour-passilic.desktop
+    harbour-passilic.desktop \
+    qml/pages/PassphraseRequester.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 

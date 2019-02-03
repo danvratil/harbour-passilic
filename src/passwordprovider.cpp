@@ -33,70 +33,9 @@ static const auto PasswordTimeoutUpdateInterval = 100;
 
 PasswordProvider::PasswordProvider(const QString &path, QObject *parent)
     : QObject(parent)
-{
-    mTimer.setInterval(PasswordTimeoutUpdateInterval);
-    connect(&mTimer, &QTimer::timeout,
-            this, [this]() {
-                mTimeout -= mTimer.interval();
-                Q_EMIT timeoutChanged();
-                if (mTimeout == 0) {
-                    expirePassword();
-                }
-            });
+    , mPath(path)
+{}
 
-    bool isGpg2 = true;
-    auto gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg2"));
-    if (gpgExe.isEmpty()) {
-        gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg"));
-        isGpg2 = false;
-    }
-    if (gpgExe.isEmpty()) {
-        qWarning("Failed to find gpg or gpg2 executables");
-        setError(tr("Failed to decrypt password: GPG is not available"));
-        return;
-    }
-
-    QStringList args = { QStringLiteral("-d"),
-                         QStringLiteral("--quiet"),
-                         QStringLiteral("--yes"),
-                         QStringLiteral("--compress-algo=none"),
-                         QStringLiteral("--no-encrypt-to"),
-                         path };
-    if (isGpg2) {
-        args = QStringList{ QStringLiteral("--batch"), QStringLiteral("--use-agent") } + args;
-    }
-
-    mGpg = new QProcess;
-    connect(mGpg, &QProcess::errorOccurred,
-            this, [this, gpgExe](QProcess::ProcessError state) {
-                if (state == QProcess::FailedToStart) {
-                    qWarning("Failed to start %s: %s", qUtf8Printable(gpgExe), qUtf8Printable(mGpg->errorString()));
-                    setError(tr("Failed to decrypt password: Failed to start GPG"));
-                }
-            });
-    connect(mGpg, &QProcess::readyReadStandardOutput,
-            this, [this]() {
-                // We only read the first line, second line usually is a username
-                setPassword(QString::fromUtf8(mGpg->readLine()).trimmed());
-            });
-    connect(mGpg, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, [this]() {
-                const auto err = mGpg->readAllStandardError();
-                if (mPassword.isEmpty()) {
-                    if (err.isEmpty()) {
-                        setError(tr("Failed to decrypt password"));
-                    } else {
-                        setError(tr("Failed to decrypt password: %1").arg(QString::fromUtf8(err)));
-                    }
-                }
-
-                mGpg->deleteLater();
-                mGpg = nullptr;
-            });
-    mGpg->setProgram(gpgExe);
-    mGpg->setArguments(args);
-    mGpg->start(QIODevice::ReadOnly);
-}
 
 PasswordProvider::~PasswordProvider()
 {
@@ -146,6 +85,79 @@ void PasswordProvider::expirePassword()
     deleteLater();
 }
 
+void PasswordProvider::requestPassword()
+{
+    setError({});
+    mPassword.clear();
+    mTimer.stop();
+    Q_EMIT validChanged();
+    Q_EMIT passwordChanged();
+
+    mTimer.setInterval(PasswordTimeoutUpdateInterval);
+    connect(&mTimer, &QTimer::timeout,
+            this, [this]() {
+                mTimeout -= mTimer.interval();
+                Q_EMIT timeoutChanged();
+                if (mTimeout == 0) {
+                    expirePassword();
+                }
+            });
+
+    bool isGpg2 = true;
+    auto gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg2"));
+    if (gpgExe.isEmpty()) {
+        gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg"));
+        isGpg2 = false;
+    }
+    if (gpgExe.isEmpty()) {
+        qWarning("Failed to find gpg or gpg2 executables");
+        setError(tr("Failed to decrypt password: GPG is not available"));
+        return;
+    }
+
+    QStringList args = { QStringLiteral("-d"),
+                         QStringLiteral("--quiet"),
+                         QStringLiteral("--yes"),
+                         QStringLiteral("--compress-algo=none"),
+                         QStringLiteral("--no-encrypt-to"),
+                         QStringLiteral("--passphrase-fd=0"),
+                         mPath };
+    if (isGpg2) {
+        args = QStringList{ QStringLiteral("--batch"), QStringLiteral("--use-agent") } + args;
+    }
+
+    mGpg = new QProcess;
+    connect(mGpg, &QProcess::errorOccurred,
+            this, [this, gpgExe](QProcess::ProcessError state) {
+                if (state == QProcess::FailedToStart) {
+                    qWarning("Failed to start %s: %s", qUtf8Printable(gpgExe), qUtf8Printable(mGpg->errorString()));
+                    setError(tr("Failed to decrypt password: Failed to start GPG"));
+                }
+            });
+    connect(mGpg, &QProcess::readyReadStandardOutput,
+            this, [this]() {
+                // We only read the first line, second line usually is a username
+                setPassword(QString::fromUtf8(mGpg->readLine()).trimmed());
+            });
+    connect(mGpg, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            this, [this]() {
+                const auto err = mGpg->readAllStandardError();
+                if (mPassword.isEmpty()) {
+                    if (err.isEmpty()) {
+                        setError(tr("Failed to decrypt password"));
+                    } else {
+                        setError(tr("Failed to decrypt password: %1").arg(QString::fromUtf8(err)));
+                    }
+                }
+
+                mGpg->deleteLater();
+                mGpg = nullptr;
+            });
+    mGpg->setProgram(gpgExe);
+    mGpg->setArguments(args);
+    mGpg->start(QIODevice::ReadWrite);
+}
+
 int PasswordProvider::timeout() const
 {
     return mTimeout;
@@ -172,6 +184,25 @@ void PasswordProvider::setError(const QString &error)
     Q_EMIT errorChanged();
 }
 
+void PasswordProvider::cancel()
+{
+    if (mGpg) {
+        mGpg->terminate();
+        delete mGpg;
+    }
+    setError(tr("Cancelled by user."));
+}
+
+void PasswordProvider::setPassphrase(const QString &passphrase)
+{
+    if (!mGpg) {
+        qWarning("Called PasswordProvider::setPassphrase without active GPG process");
+        return;
+    }
+
+    mGpg->write(passphrase.toUtf8());
+    mGpg->closeWriteChannel();
+}
 
 void PasswordProvider::removePasswordFromClipboard(const QString &password)
 {

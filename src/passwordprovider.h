@@ -47,6 +47,12 @@ public:
     bool hasError() const;
     QString error() const;
 
+public Q_SLOTS:
+    void requestPassword();
+    void cancel();
+    void setPassphrase(const QString &passphrase);
+    void expirePassword();
+
 Q_SIGNALS:
     void passwordChanged();
     void validChanged();
@@ -56,7 +62,6 @@ Q_SIGNALS:
 private:
     void setError(const QString &error);
     void setPassword(const QString &password);
-    void expirePassword();
 
     void removePasswordFromClipboard(const QString &password);
     void clearClipboard();
