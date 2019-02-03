@@ -12,8 +12,11 @@ License:    GPLv3 and LGPLv2+
 URL:        https://github.com/danvratil/harbour-passilic
 Source0:    %{name}-%{version}.tar.bz2
 
+
 Requires:   sailfishsilica-qt5 >= 0.10.9
-Requires:   gnupg2
+# gnupg2 is not an allowed dependency on Harbour, but it should be
+# already pre-installed on SFOS, so no harm commenting it out here.
+#Requires:   gnupg2
 
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
@@ -49,6 +52,7 @@ desktop-file-install --delete-original \
 %files
 %defattr(-,root,root,-)
 %{_bindir}
+%defattr(0666,root,root,-)
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
