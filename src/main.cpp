@@ -1,5 +1,5 @@
 /*
- *   Copyright (C) 2018  Daniel Vrátil <dvratil@kde.org>
+ *   Copyright (C) 2019  Daniel Vrátil <dvratil@kde.org>
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU Library General Public License as
@@ -20,6 +20,7 @@
 #include "passwordsmodel.h"
 #include "passwordfiltermodel.h"
 #include "passwordsortproxymodel.h"
+#include "imageprovider.h"
 
 #ifdef QT_QML_DEBUG
 #include <QtQuick>
@@ -27,6 +28,11 @@
 #include <QScopedPointer>
 
 #include <sailfishapp.h>
+
+void addImageProvider(QQmlEngine *engine, const QString &id)
+{
+    engine->addImageProvider(id, new ImageProvider(id));
+}
 
 int main(int argc, char *argv[])
 {
@@ -37,6 +43,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<PasswordFilterModel>("harbour.passilic", 1, 0, "PasswordFilterModel");
     qmlRegisterType<PasswordSortProxyModel>("harbour.passilic", 1, 0, "PasswordSortProxyModel");
 
+    addImageProvider(view->engine(), QStringLiteral("passIcon"));
+    addImageProvider(view->engine(), QStringLiteral("passImage"));
     view->setSource(SailfishApp::pathToMainQml());
     view->show();
 

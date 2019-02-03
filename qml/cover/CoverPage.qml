@@ -2,21 +2,12 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
+
+    Image {
+        source: "image://passImage/cover.png?" + Theme.primaryColor
         anchors.centerIn: parent
-        text: qsTr("My Cover")
-    }
 
-    CoverActionList {
-        id: coverAction
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
-        }
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
-        }
+        width: parent.width - 2 * Theme.paddingLarge
+        height: sourceSize.height * width / sourceSize.width
     }
 }

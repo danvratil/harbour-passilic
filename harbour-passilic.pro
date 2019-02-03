@@ -7,6 +7,7 @@ INCLUDEPATH += 3rdparty/kitemmodels/
 SOURCES += \
     src/main.cpp \
     src/abbreviations.cpp \
+    src/imageprovider.cpp \
     src/passwordfiltermodel.cpp \
     src/passwordprovider.cpp \
     src/passwordsmodel.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
 
 HEADERS += \
     src/abbreviations.h \
+    src/imageprovider.h \
     src/passwordfiltermodel.h \
     src/passwordprovider.h \
     src/passwordsmodel.h \
@@ -26,13 +28,13 @@ DISTFILES += \
     qml/harbour-passilic.qml \
     qml/cover/CoverPage.qml \
     qml/pages/PasswordListPage.qml \
+    qml/pages/PassphraseRequester.qml \
     rpm/harbour-passilic.changes.in \
     rpm/harbour-passilic.changes.run.in \
     rpm/harbour-passilic.spec \
     rpm/harbour-passilic.yaml \
     translations/*.ts \
-    harbour-passilic.desktop \
-    qml/pages/PassphraseRequester.qml
+    harbour-passilic.desktop
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
