@@ -15,12 +15,13 @@ Name:       harbour-passilic
 Summary:    A frontend for the pass password manager
 Version:    0.1
 Release:    1
-Group:      Qt/Qt
-License:    LICENSE
-URL:        http://example.org/
+Group:      Applications/Productivity
+License:    GPLv3 and LGPLv2+
+URL:        https://github.com/danvratil/harbour-passilic
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-passilic.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
+Requires:   gnupg2
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)

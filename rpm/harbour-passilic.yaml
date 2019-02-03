@@ -4,9 +4,9 @@ Version: 0.1
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # https://github.com/mer-tools/spectacle/blob/master/data/GROUPS
-Group: Qt/Qt
-URL: http://example.org/
-License: LICENSE
+Group: Applications/Productivity
+URL: https://github.com/danvratil/harbour-passilic
+License: GPLv3 and LGPLv2+
 # This must be generated before uploading a package to a remote build service.
 # Usually this line does not need to be modified.
 Sources:
@@ -33,6 +33,7 @@ PkgConfigBR:
 # Runtime dependencies which are not automatically detected
 Requires:
   - sailfishsilica-qt5 >= 0.10.9 
+  - gnupg2
 
 # All installed files
 Files:
