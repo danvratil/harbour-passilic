@@ -123,7 +123,10 @@ void PasswordProvider::requestPassword()
                          QStringLiteral("--passphrase-fd=0"),
                          mPath };
     if (isGpg2) {
-        args = QStringList{ QStringLiteral("--batch"), QStringLiteral("--use-agent") } + args;
+        args = QStringList{ QStringLiteral("--pinentry-mode=loopback"),
+                            QStringLiteral("--batch"),
+                            QStringLiteral("--use-agent") }
+                + args;
     }
 
     mGpg = new QProcess;
