@@ -2,6 +2,16 @@ TARGET = harbour-passilic
 
 CONFIG += sailfishapp
 
+DEFINES += \
+    QT_NO_CAST_FROM_ASCII \
+    QT_NO_CAST_TO_ASCII \
+    QT_STRICT_ITERATORS \
+    QT_USE_QSTRINGBUILDER \
+    QT_NO_URL_CAST_FROM_STRING \
+    QT_NO_CAST_FROM_BYTEARRAY \
+    QT_NO_SIGNALS_SLOTS_KEYWORDS
+
+
 INCLUDEPATH += 3rdparty/kitemmodels/
 
 SOURCES += \

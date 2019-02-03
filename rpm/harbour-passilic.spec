@@ -54,5 +54,5 @@ desktop-file-install --delete-original \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
-* Sun Feb 02 2019 Daniel Vrátil <dvratil@kde.org> 0.0.1-1
+* Mon Feb 04 2019 Daniel Vrátil <dvratil@kde.org> 0.0.1-1
 - Initial release

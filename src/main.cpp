@@ -20,9 +20,9 @@
 #include "passwordsortproxymodel.h"
 #include "imageprovider.h"
 
-#ifdef QT_QML_DEBUG
-#include <QtQuick>
-#endif
+#include <QQuickView>
+#include <QQmlEngine>
+#include <QGuiApplication>
 #include <QScopedPointer>
 
 #include <sailfishapp.h>
