@@ -39,12 +39,14 @@ DISTFILES += \
     qml/cover/CoverPage.qml \
     qml/pages/PasswordListPage.qml \
     qml/pages/PassphraseRequester.qml \
+    qml/components/GlobalPullDownMenu.qml \
     rpm/harbour-passilic.changes.in \
     rpm/harbour-passilic.changes.run.in \
     rpm/harbour-passilic.spec \
     rpm/harbour-passilic.yaml \
     translations/*.ts \
-    harbour-passilic.desktop
+    harbour-passilic.desktop \
+    qml/pages/AboutPage.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 

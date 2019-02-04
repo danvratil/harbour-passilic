@@ -19,6 +19,7 @@ import QtQuick 2.2
 import QtQml.Models 2.2
 import Sailfish.Silica 1.0
 import harbour.passilic 1.0
+import "../components"
 
 Page {
     id: passwordListPage
@@ -42,6 +43,8 @@ Page {
             width: parent.width
             title: passwordListPage.currentPath === "" ? qsTr("Passilic") : passwordListPage.currentPath
         }
+
+        GlobalPullDownMenu {}
 
         model: DelegateModel {
             id: delegateModel

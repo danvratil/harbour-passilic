@@ -39,7 +39,7 @@ after 45 seconds.
 %build
 
 %qtc_qmake5 
-%qtc_make %{?_smp_mflags}
+%qtc_make %{?_smp_mflags} DEFINES+=-DPASSILIC_VERSION=\\\"%{version}\\\"
 
 %install
 rm -rf %{buildroot}
