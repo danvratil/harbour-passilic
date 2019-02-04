@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     app->setApplicationDisplayName(QObject::tr("Passilic"));
     app->setApplicationName(QStringLiteral("passilic"));
-    app->setApplicationVersion(PASSILIC_VERSION);
+    app->setApplicationVersion(QStringLiteral(PASSILIC_VERSION));
     app->setOrganizationName(QObject::tr("Daniel Vrátil"));
 
     QScopedPointer<QQuickView> view(SailfishApp::createView());
