@@ -68,8 +68,14 @@ Page {
         }
 
         Label {
-            text: qsTr("Homepage: <a href=\"%1\">Github</a>").arg("https://github.com/danvratil/harbour-passilic")
+            readonly property string _url: "https://github.com/danvratil/harbour-passilic"
+
+            textFormat: Text.RichText
+            text: qsTr("Homepage: <a href=\"%1\">Github</a>").arg(_url)
             font.pixelSize: Theme.fontSizeSmall
+            linkColor: Theme.highlightColor
+
+            onLinkActivated: Qt.openUrlExternally(_url)
         }
 
         Label {
