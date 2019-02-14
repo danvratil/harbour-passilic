@@ -38,6 +38,7 @@ Dialog {
             rightMargin: Theme.horizontalPageMargin
         }
 
+        focus: true
         placeholderText: "Key passphrase"
         EnterKey.iconSource: "image://theme/icom-m-enter-accept"
         EnterKey.onClicked: dlg.accept()
