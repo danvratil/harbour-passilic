@@ -5,7 +5,7 @@ Name:       harbour-passilic
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 
 Summary:    A frontend for the Pass password manager
-Version:    0.1
+Version:    0.2
 Release:    1
 Group:      Applications/Productivity
 License:    GPLv3 and LGPLv2+
@@ -58,5 +58,11 @@ desktop-file-install --delete-original \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
-* Mon Feb 04 2019 Daniel Vrátil <dvratil@kde.org> 0.0.1-1
+* Thu Feb 14 2019 Daniel Vrátil <dvratil@kde.org> 0.2-1
+- Clear passwords on exit
+- Automatically focus passphrase entry field
+- Add Search page
+- Make password timeout customizable
+
+* Mon Feb 04 2019 Daniel Vrátil <dvratil@kde.org> 0.1-1
 - Initial release
