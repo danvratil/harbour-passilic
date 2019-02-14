@@ -11,6 +11,11 @@ by Passilic.
 
 Passilic is a free and open source project under GPLv3 license.
 
+# Screenshots
+
+![Main screen](https://raw.githubusercontent.com/danvratil/harbour-passilic/master/images/mainscreen.png)
+![Password expiration](https://raw.githubusercontent.com/danvratil/harbour-passilic/master/images/mainscreen-expire.png)
+
 # Installation
 
 Latest version of Passilic is available on [OpenRepos](https://openrepos.net/content/dvratil/passilic).
