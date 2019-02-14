@@ -59,5 +59,9 @@ Page {
                 }
             }
         }
+
+        VerticalScrollDecorator {
+            flickable: listView
+        }
     }
 }

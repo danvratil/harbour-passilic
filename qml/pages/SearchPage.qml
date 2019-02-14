@@ -39,5 +39,9 @@ Page {
         delegate: PasswordDelegate {
             modelData: model
         }
+
+        VerticalScrollDecorator{
+            flickable: listView
+        }
     }
 }
