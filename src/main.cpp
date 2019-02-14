@@ -19,6 +19,8 @@
 #include "passwordfiltermodel.h"
 #include "passwordsortproxymodel.h"
 #include "imageprovider.h"
+#include "scopeguard.h"
+#include "settings.h"
 
 #include <QQuickView>
 #include <QQmlEngine>
@@ -41,10 +43,17 @@ int main(int argc, char *argv[])
     app->setOrganizationName(QObject::tr("Daniel Vrátil"));
 
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+    const auto settingsGuard = scopeGuard([]() {
+        Settings::destroy();
+    });
 
     qmlRegisterType<PasswordsModel>("harbour.passilic", 1, 0, "PasswordsModel");
     qmlRegisterType<PasswordFilterModel>("harbour.passilic", 1, 0, "PasswordFilterModel");
     qmlRegisterType<PasswordSortProxyModel>("harbour.passilic", 1, 0, "PasswordSortProxyModel");
+    qmlRegisterSingletonType<Settings>("harbour.passilic", 1, 0, "Settings",
+                                       [](QQmlEngine *, QJSEngine *) -> QObject* {
+                                            return Settings::self();
+                                       });
 
     addImageProvider(view->engine(), QStringLiteral("passIcon"));
     addImageProvider(view->engine(), QStringLiteral("passImage"));

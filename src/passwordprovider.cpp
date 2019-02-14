@@ -18,6 +18,7 @@
  */
 
 #include "passwordprovider.h"
+#include "settings.h"
 
 #include <QProcess>
 #include <QStandardPaths>
@@ -26,7 +27,6 @@
 
 namespace {
 
-static const auto PasswordTimeout = 45 * 1000;
 static const auto PasswordTimeoutUpdateInterval = 100;
 
 }
@@ -168,7 +168,7 @@ int PasswordProvider::timeout() const
 
 int PasswordProvider::defaultTimeout() const
 {
-    return PasswordTimeout;
+    return Settings::self()->expirationTimeout() * 1000;
 }
 
 QString PasswordProvider::error() const

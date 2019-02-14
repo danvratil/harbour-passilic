@@ -15,21 +15,35 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import QtQml.Models 2.2
-import Sailfish.Silica 1.0
+#ifndef SCOPEGUARD_H
+#define SCOPEGUARD_H
 
-PullDownMenu {
-    MenuItem {
-        text: qsTr("About")
-        onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
+template<typename Func>
+class ScopeGuard
+{
+public:
+    ScopeGuard(Func &&func)
+        : mFunc(std::move(func))
+    {}
+
+    ScopeGuard(ScopeGuard<Func> &&) = default;
+    ScopeGuard<Func> &operator=(ScopeGuard<Func> &&) = default;
+    ScopeGuard(const ScopeGuard<Func> &) = delete;
+    ScopeGuard<Func> &operator=(const ScopeGuard<Func> &) = delete;
+
+    ~ScopeGuard()
+    {
+        mFunc();
     }
-    MenuItem {
-        text: qsTr("Settings")
-        onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
-    }
-    MenuItem {
-        text: qsTr("Search")
-        onClicked: app.pageStack.push(searchPage)
-    }
+
+private:
+    Func mFunc;
+};
+
+template<typename Func>
+ScopeGuard<Func> scopeGuard(Func &&func)
+{
+    return ScopeGuard<Func>(std::move(func));
 }
+
+#endif // SCOPEGUARD_H

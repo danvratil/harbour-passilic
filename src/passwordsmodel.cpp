@@ -41,6 +41,9 @@ public:
 
     ~Node()
     {
+        if (provider) {
+            provider->expirePassword();
+        }
         qDeleteAll(children);
     }
 

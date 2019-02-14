@@ -15,21 +15,39 @@
  *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import QtQml.Models 2.2
-import Sailfish.Silica 1.0
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
-PullDownMenu {
-    MenuItem {
-        text: qsTr("About")
-        onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
-    }
-    MenuItem {
-        text: qsTr("Settings")
-        onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
-    }
-    MenuItem {
-        text: qsTr("Search")
-        onClicked: app.pageStack.push(searchPage)
-    }
-}
+#include <QObject>
+#include <QSettings>
+
+#include <memory>
+
+#define DECLARE_OPTION(type, lc, uc) \
+    private: Q_PROPERTY(type lc READ lc WRITE set##uc NOTIFY lc##Changed) \
+    public: type lc() const; \
+    public: void set##uc(type val); \
+    Q_SIGNALS: void lc##Changed();
+
+
+class Settings : public QObject
+{
+    Q_OBJECT
+public:
+    static Settings *self();
+    static void destroy();
+
+    Q_INVOKABLE void save();
+
+    DECLARE_OPTION(int, expirationTimeout, ExpirationTimeout)
+
+private:
+    explicit Settings();
+    QSettings mSettings;
+
+    static std::unique_ptr<Settings> kInstance;
+};
+
+#undef DECLARE_OPTION
+
+#endif // SETTINGS_H

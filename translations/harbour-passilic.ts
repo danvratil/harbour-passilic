@@ -38,6 +38,10 @@
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PasswordDelegate</name>
@@ -92,6 +96,18 @@
     </message>
     <message>
         <source>Daniel Vrátil</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SettingsPage</name>
+    <message>
+        <source>Password expiration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 s</source>
+        <extracomment>number of seconds</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
