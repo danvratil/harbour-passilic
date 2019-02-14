@@ -18,46 +18,26 @@
 import QtQuick 2.2
 import QtQml.Models 2.2
 import Sailfish.Silica 1.0
-import harbour.passilic 1.0
 import "../components"
 
 Page {
-    id: passwordListPage
+    id: searchPage
 
-    property var rootIndex: null
-    property alias model: delegateModel.model
-    property string currentPath: ""
-
-
-    signal folderSelected(var index, var name)
-    signal passwordRequested(var requester)
-
+    property alias model: listView.model
 
     SilicaListView {
         id: listView
-
         anchors.fill: parent
 
-        header: PageHeader {
-            id: pageHeader
+        header: SearchField {
+            id: searchField
             width: parent.width
-            title: passwordListPage.currentPath === "" ? qsTr("Passilic") : passwordListPage.currentPath
+            focus: true
+            onTextChanged: model.filter = text
         }
 
-        GlobalPullDownMenu {}
-
-        model: DelegateModel {
-            id: delegateModel
-
-            rootIndex: passwordListPage.rootIndex
-
-            delegate: PasswordDelegate {
-                modelData: model
-
-                onFolderSelected: {
-                    passwordListPage.folderSelected(delegateModel.modelIndex(index), model.name);
-                }
-            }
+        delegate: PasswordDelegate {
+            modelData: model
         }
     }
 }

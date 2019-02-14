@@ -47,6 +47,8 @@ DISTFILES += \
     rpm/harbour-passilic.yaml \
     translations/*.ts \
     harbour-passilic.desktop \
+    qml/pages/SearchPage.qml \
+    qml/components/PasswordDelegate.qml
 
 OTHER_FILES += \
     README.md

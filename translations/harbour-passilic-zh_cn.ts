@@ -34,13 +34,13 @@
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>PasswordListPage</name>
     <message>
-        <source>Passilic</source>
+        <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>PasswordDelegate</name>
     <message>
         <source>Password copied to clipboard</source>
         <translation type="unfinished"></translation>
@@ -51,6 +51,13 @@
     </message>
     <message>
         <source>Password will expire</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PasswordListPage</name>
+    <message>
+        <source>Passilic</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

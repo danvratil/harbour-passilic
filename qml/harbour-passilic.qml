@@ -47,6 +47,14 @@ ApplicationWindow
     }
 
     Component {
+        id: searchPage
+
+        SearchPage {
+            model: filterModel
+        }
+    }
+
+    Component {
         id: passwordsPage
 
         PasswordListPage {

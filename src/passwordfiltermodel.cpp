@@ -79,7 +79,8 @@ bool PasswordFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
     }
 
     if (mFilter.isEmpty()) {
-        return true;
+        // nothing matches an empty filter
+        return false;
     }
 
     const auto path = sourceModel()->data(src_index, PasswordsModel::FullNameRole).toString();
