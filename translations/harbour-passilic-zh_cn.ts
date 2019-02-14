@@ -2,37 +2,90 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Passilic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Author: Daniel Vrátil</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Homepage: &lt;a href=&quot;%1&quot;&gt;Github&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>License: GPLv3</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GlobalPullDownMenu</name>
+    <message>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PasswordListPage</name>
+    <message>
+        <source>Passilic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password copied to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expire password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password will expire</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PasswordProvider</name>
     <message>
         <source>Failed to decrypt password: GPG is not available</source>
-        <translation type="解密密码失败: GPG不可用"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Failed to decrypt password: Failed to start GPG</source>
-        <translation type="解密密码失败: 开启GPG失败"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation type="解密密码失败"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Failed to decrypt password: %1</source>
-        <translation type="解密密码失败: %1"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Cancelled by user.</source>
-        <translation type="已被用户取消"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Passilic</source>
-        <translation type="Passilic"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Daniel Vrátil</source>
-        <translation type="">Daniel Vrátil</translation>
+        <translation>Daniel Vrátil</translation>
     </message>
 </context>
 </TS>
