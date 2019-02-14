@@ -58,4 +58,5 @@ SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 CONFIG += sailfishapp_i18n
 
 TRANSLATIONS += \
-    translations/harbour-passilic.ts
+    translations/harbour-passilic.ts \
+    translations/harbour-passilic-zh_cn.ts
