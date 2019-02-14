@@ -17,8 +17,6 @@ Latest version of Passilic is available on [OpenRepos](https://openrepos.net/con
 
 # TODO
 
-* Cleanup clipboard on shutdown
-* Customizable password expiration timeout
 * Remember passphrase (gpg-agent integration)
 * Generating passwords
 * Editing passwords
