@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1"> language="zh_cn">
+<TS version="2.1" language="zh_cn">
 <context>
     <name>AboutPage</name>
     <message>
@@ -47,11 +47,11 @@
     <name>PasswordDelegate</name>
     <message>
         <source>Password copied to clipboard</source>
-        <translation >密码已复制到剪贴板</translation>
+        <translation>密码已复制到剪贴板</translation>
     </message>
     <message>
         <source>Expire password</source>
-        <translation >密码已过期</translation>
+        <translation>密码已过期</translation>
     </message>
     <message>
         <source>Password will expire</source>
@@ -111,4 +111,4 @@
         <translation>%1 秒</translation>
     </message>
 </context>
-</TS
+</TS>
