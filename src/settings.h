@@ -43,7 +43,7 @@ public:
 
 private:
     explicit Settings();
-    QSettings mSettings;
+    std::unique_ptr<QSettings> mSettings;
 
     static std::unique_ptr<Settings> kInstance;
 };

@@ -17,9 +17,33 @@
 
 #include "settings.h"
 
+#include <QStandardPaths>
+#include <QDir>
+
 std::unique_ptr<Settings> Settings::kInstance = {};
 
-Settings::Settings(): QObject() {}
+static const QString OldSettingsDir = QStringLiteral("Daniel Vrátil");
+static const QString SettingsDir = QStringLiteral("harbour-passilic");
+static const QString SettingsName = QStringLiteral("passilic");
+
+Settings::Settings()
+    : QObject()
+{
+    // Migrate config directory to new location
+    const auto oldPath = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                                OldSettingsDir,
+                                                QStandardPaths::LocateDirectory);
+    const QDir newDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
+                                                + QLatin1Char('/') + SettingsDir);
+    if (!oldPath.isEmpty() && !newDir.exists()) {
+        qDebug("Migrating Passilic configuration from %s to %s",
+               qUtf8Printable(oldPath),
+               qUtf8Printable(newDir.absolutePath()));
+        QDir().rename(oldPath, newDir.absolutePath());
+    }
+
+    mSettings.reset(new QSettings(SettingsDir, SettingsName));
+}
 
 Settings *Settings::self()
 {
@@ -36,18 +60,18 @@ void Settings::destroy()
 
 void Settings::save()
 {
-    mSettings.sync();
+    mSettings->sync();
 }
 
 #define IMPLEMENT_OPTION(type, lc, uc, name, defValue) \
     void Settings::set##uc(type val) { \
         if (lc() != val) { \
-            mSettings.setValue(QStringLiteral(name), val); \
+            mSettings->setValue(QStringLiteral(name), val); \
             Q_EMIT lc##Changed(); \
         } \
     } \
     type Settings::lc() const { \
-        return mSettings.value(QStringLiteral(name), defValue).value<type>(); \
+        return mSettings->value(QStringLiteral(name), defValue).value<type>(); \
     }
 
 IMPLEMENT_OPTION(int, expirationTimeout, ExpirationTimeout, "expirationTimeout", 45)
