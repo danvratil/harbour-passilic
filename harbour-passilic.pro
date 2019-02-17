@@ -65,4 +65,5 @@ CONFIG += sailfishapp_i18n
 
 TRANSLATIONS += \
     translations/harbour-passilic.ts \
+    translations/harbour-passilic-cs.ts \
     translations/harbour-passilic-zh.ts
