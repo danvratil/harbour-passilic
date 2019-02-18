@@ -18,6 +18,7 @@
 #include "passwordsmodel.h"
 #include "passwordfiltermodel.h"
 #include "passwordsortproxymodel.h"
+#include "passwordgenerator.h"
 #include "imageprovider.h"
 #include "scopeguard.h"
 #include "settings.h"
@@ -54,6 +55,10 @@ int main(int argc, char *argv[])
                                        [](QQmlEngine *, QJSEngine *) -> QObject* {
                                             return Settings::self();
                                        });
+    qmlRegisterSingletonType<PasswordGenerator>("harbour.passilic", 1, 0, "PasswordGenerator",
+                                                [](QQmlEngine *, QJSEngine *) -> QObject* {
+                                                    return new PasswordGenerator;
+                                                });
 
     addImageProvider(view->engine(), QStringLiteral("passIcon"));
     addImageProvider(view->engine(), QStringLiteral("passImage"));

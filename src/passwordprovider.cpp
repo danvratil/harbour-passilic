@@ -85,6 +85,16 @@ void PasswordProvider::expirePassword()
     deleteLater();
 }
 
+PasswordProvider::GpgExecutable PasswordProvider::findGpgExecutable()
+{
+    auto gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg2"));
+    if (gpgExe.isEmpty()) {
+        gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg"));
+        return {gpgExe, false};
+    }
+    return {gpgExe, true};
+}
+
 void PasswordProvider::requestPassword()
 {
     setError({});
@@ -103,13 +113,8 @@ void PasswordProvider::requestPassword()
                 }
             });
 
-    bool isGpg2 = true;
-    auto gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg2"));
-    if (gpgExe.isEmpty()) {
-        gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg"));
-        isGpg2 = false;
-    }
-    if (gpgExe.isEmpty()) {
+    const auto gpgExe = findGpgExecutable();
+    if (gpgExe.path.isEmpty()) {
         qWarning("Failed to find gpg or gpg2 executables");
         setError(tr("Failed to decrypt password: GPG is not available"));
         return;
@@ -122,7 +127,7 @@ void PasswordProvider::requestPassword()
                          QStringLiteral("--no-encrypt-to"),
                          QStringLiteral("--passphrase-fd=0"),
                          mPath };
-    if (isGpg2) {
+    if (gpgExe.isGpg2) {
         args = QStringList{ QStringLiteral("--pinentry-mode=loopback"),
                             QStringLiteral("--batch"),
                             QStringLiteral("--use-agent") }
@@ -133,7 +138,7 @@ void PasswordProvider::requestPassword()
     connect(mGpg, &QProcess::errorOccurred,
             this, [this, gpgExe](QProcess::ProcessError state) {
                 if (state == QProcess::FailedToStart) {
-                    qWarning("Failed to start %s: %s", qUtf8Printable(gpgExe), qUtf8Printable(mGpg->errorString()));
+                    qWarning("Failed to start %s: %s", qUtf8Printable(gpgExe.path), qUtf8Printable(mGpg->errorString()));
                     setError(tr("Failed to decrypt password: Failed to start GPG"));
                 }
             });
@@ -156,7 +161,7 @@ void PasswordProvider::requestPassword()
                 mGpg->deleteLater();
                 mGpg = nullptr;
             });
-    mGpg->setProgram(gpgExe);
+    mGpg->setProgram(gpgExe.path);
     mGpg->setArguments(args);
     mGpg->start(QIODevice::ReadWrite);
 }

@@ -28,6 +28,8 @@ class PasswordSortProxyModel : public QSortFilterProxyModel
 public:
     explicit PasswordSortProxyModel(QObject *parent = nullptr);
 
+    Q_INVOKABLE void addPassword(const QModelIndex &parent, const QString &name,
+                                 const QString &password, const QString &extra);
 protected:
     bool lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const override;
 };

@@ -47,6 +47,15 @@ public:
     bool hasError() const;
     QString error() const;
 
+    struct GpgExecutable {
+        GpgExecutable(const QString &path, bool isGpg2)
+            : path(path), isGpg2(isGpg2)
+        {}
+        QString path = {};
+        bool isGpg2 = false;
+    };
+
+    static GpgExecutable findGpgExecutable();
 public Q_SLOTS:
     void requestPassword();
     void cancel();

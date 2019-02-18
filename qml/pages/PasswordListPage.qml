@@ -33,6 +33,11 @@ Page {
     signal passwordRequested(var requester)
 
 
+    Connections {
+        target: model
+        onModelReset: app.pageStack.pop(passwordListPage, PageStackAction.Immediate)
+    }
+
     SilicaListView {
         id: listView
 
@@ -44,7 +49,10 @@ Page {
             title: passwordListPage.currentPath === "" ? qsTr("Passilic") : passwordListPage.currentPath
         }
 
-        GlobalPullDownMenu {}
+        GlobalPullDownMenu {
+            currentIndex: passwordListPage.rootIndex
+            model: passwordListPage.model
+        }
 
         model: DelegateModel {
             id: delegateModel

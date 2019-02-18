@@ -40,3 +40,9 @@ bool PasswordSortProxyModel::lessThan(const QModelIndex &source_left, const QMod
 
     return QSortFilterProxyModel::lessThan(source_left, source_right);
 }
+
+void PasswordSortProxyModel::addPassword(const QModelIndex &parent, const QString &name,
+                                         const QString &password, const QString &extras)
+{
+    qobject_cast<PasswordsModel*>(sourceModel())->addPassword(mapToSource(parent), name, password, extras);
+}

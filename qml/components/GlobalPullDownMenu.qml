@@ -20,6 +20,9 @@ import QtQml.Models 2.2
 import Sailfish.Silica 1.0
 
 PullDownMenu {
+    property var currentIndex
+    property var model
+
     MenuItem {
         text: qsTr("About")
         onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/AboutPage.qml"))
@@ -27,6 +30,12 @@ PullDownMenu {
     MenuItem {
         text: qsTr("Settings")
         onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/SettingsPage.qml"))
+    }
+    MenuItem {
+        text: qsTr("New Password")
+        onClicked: app.pageStack.push(Qt.resolvedUrl("../pages/NewPasswordDialog.qml"),
+                                      { "currentIndex": currentIndex,
+                                        "model": model })
     }
     MenuItem {
         text: qsTr("Search")

@@ -23,6 +23,9 @@
 #include <QDir>
 #include <QDebug>
 #include <QPointer>
+#include <QProcess>
+#include <QTemporaryFile>
+#include <QFile>
 
 #define PASSWORD_STORE_DIR "PASSWORD_STORE_DIR"
 
@@ -218,4 +221,50 @@ void PasswordsModel::populateDir(const QDir& dir, Node *parent)
         auto node = new Node(entry.fileName(), FolderEntry, parent);
         populateDir(entry.absoluteFilePath(), node);
     }
+}
+
+// FIXME: This is absolutely not the right place for this piece of code
+// Should introduce PasswordManager to abstract password generation,
+// creation and access in an asynchronous manner.
+void PasswordsModel::addPassword(const QModelIndex &parent, const QString &name,
+                                 const QString &password, const QString &extras)
+{
+    auto node = this->node(parent);
+
+    // Escape forward slash to avoid the name "escaping" the current folder
+    QString safeName = name;
+    safeName.replace(QLatin1Char('/'), QLatin1Char(' '));
+
+    QFile gpgIdFile(mRoot->path() + QStringLiteral("/.gpg-id"));
+    if (!gpgIdFile.exists()) {
+        qWarning() << "Missing .gpg-id file (" << gpgIdFile.fileName() << ")";
+        return;
+    }
+    gpgIdFile.open(QIODevice::ReadOnly);
+    const auto gpgId = QString::fromUtf8(gpgIdFile.readAll()).trimmed();
+    gpgIdFile.close();
+
+
+    const auto gpgExe = PasswordProvider::findGpgExecutable();
+    if (gpgExe.path.isEmpty()) {
+        qWarning() << "Failed to find GPG executable";
+        return;
+    }
+
+    QProcess process;
+    process.setProgram(gpgExe.path);
+    process.setArguments({ QStringLiteral("-e"),
+                           QStringLiteral("--no-tty"),
+                           QStringLiteral("-r%1").arg(gpgId),
+                           QStringLiteral("-o%1/%2.gpg").arg(node->path(), safeName)
+                         });
+    process.start(QIODevice::ReadWrite);
+    process.waitForStarted();
+    process.write(password.toUtf8());
+    if (!extras.isEmpty()) {
+        process.write("\n");
+        process.write(extras.toUtf8());
+    }
+    process.closeWriteChannel();
+    process.waitForFinished();
 }

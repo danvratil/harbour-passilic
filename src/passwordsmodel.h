@@ -58,6 +58,8 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
+    Q_INVOKABLE void addPassword(const QModelIndex &parent, const QString &name,
+                                 const QString &password, const QString &extras);
 private:
     void populate();
     void populateDir(const QDir &dir, Node *parent);

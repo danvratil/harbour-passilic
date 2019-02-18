@@ -23,7 +23,8 @@ SOURCES += \
     src/passwordsmodel.cpp \
     src/passwordsortproxymodel.cpp \
     3rdparty/kitemmodels/kdescendantsproxymodel.cpp \
-    src/settings.cpp
+    src/settings.cpp \
+    src/passwordgenerator.cpp
 
 
 HEADERS += \
@@ -35,7 +36,8 @@ HEADERS += \
     src/passwordsortproxymodel.h \
     3rdparty/kitemmodels/kdescendantsproxymodel.h \
     src/settings.h \
-    src/scopeguard.h
+    src/scopeguard.h \
+    src/passwordgenerator.h
 
 DISTFILES += \
     qml/harbour-passilic.qml \
@@ -52,7 +54,9 @@ DISTFILES += \
     harbour-passilic.desktop \
     qml/pages/SearchPage.qml \
     qml/components/PasswordDelegate.qml \
-    qml/pages/SettingsPage.qml
+    qml/pages/SettingsPage.qml \
+    qml/pages/NewPasswordDialog.qml \
+    qml/pages/GeneratePasswordDialog.qml
 
 OTHER_FILES += \
     README.md
