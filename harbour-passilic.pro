@@ -71,4 +71,5 @@ TRANSLATIONS += \
     translations/harbour-passilic.ts \
     translations/harbour-passilic-cs.ts \
     translations/harbour-passilic-fr.ts \
+    translations/harbour-passilic-sv.ts
     translations/harbour-passilic-zh.ts
