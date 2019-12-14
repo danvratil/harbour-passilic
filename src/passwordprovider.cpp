@@ -24,6 +24,7 @@
 #include <QStandardPaths>
 #include <QClipboard>
 #include <QGuiApplication>
+#include <QRegularExpression>
 
 namespace {
 
@@ -90,9 +91,16 @@ PasswordProvider::GpgExecutable PasswordProvider::findGpgExecutable()
     auto gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg2"));
     if (gpgExe.isEmpty()) {
         gpgExe = QStandardPaths::findExecutable(QStringLiteral("gpg"));
-        return {gpgExe, false};
     }
-    return {gpgExe, true};
+
+    QProcess process;
+    process.start(gpgExe, {QStringLiteral("--version")}, QIODevice::ReadOnly);
+    process.waitForFinished();
+    const auto line = process.readLine();
+    static const QRegularExpression rex(QStringLiteral("([0-9]+).([0-9]+).([0-9]+)"));
+    const auto match = rex.match(QString::fromUtf8(line));
+
+    return {gpgExe, match.captured(1).toInt(), match.captured(2).toInt()};
 }
 
 void PasswordProvider::requestPassword()
@@ -120,19 +128,24 @@ void PasswordProvider::requestPassword()
         return;
     }
 
-    QStringList args = { QStringLiteral("-d"),
+    qDebug("Detected gpg version: %d.%d", gpgExe.major_version, gpgExe.minor_version);
+
+    QStringList args = { QStringLiteral("--decrypt"),
                          QStringLiteral("--quiet"),
                          QStringLiteral("--yes"),
                          QStringLiteral("--compress-algo=none"),
                          QStringLiteral("--no-encrypt-to"),
-                         QStringLiteral("--passphrase-fd=0"),
-                         mPath };
-    if (gpgExe.isGpg2) {
-        args = QStringList{ QStringLiteral("--pinentry-mode=loopback"),
-                            QStringLiteral("--batch"),
-                            QStringLiteral("--use-agent") }
-                + args;
+                         QStringLiteral("--passphrase-fd=0") };
+    if (gpgExe.major_version >= 2) {
+        args += QStringList{ QStringLiteral("--batch"),
+                             QStringLiteral("--no-use-agent") };
+
+        if (gpgExe.minor_version >= 1) {
+            args.push_back(QStringLiteral("--pinentry-mode=loopback"));
+        }
     }
+
+    args.push_back(mPath);
 
     mGpg = new QProcess;
     connect(mGpg, &QProcess::errorOccurred,

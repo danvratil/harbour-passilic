@@ -48,11 +48,12 @@ public:
     QString error() const;
 
     struct GpgExecutable {
-        GpgExecutable(const QString &path, bool isGpg2)
-            : path(path), isGpg2(isGpg2)
+        GpgExecutable(const QString &path, int major, int minor)
+            : path(path), major_version(major), minor_version(minor)
         {}
         QString path = {};
-        bool isGpg2 = false;
+        int major_version = 0;
+        int minor_version = 0;
     };
 
     static GpgExecutable findGpgExecutable();
