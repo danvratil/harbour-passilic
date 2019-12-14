@@ -5,7 +5,7 @@ Name:       harbour-passilic
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 
 Summary:    A frontend for the Pass password manager
-Version:    0.3
+Version:    0.4
 Release:    1
 Group:      Applications/Productivity
 License:    GPLv3 and LGPLv2+
@@ -58,6 +58,11 @@ desktop-file-install --delete-original \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
+* Sat Dev 14 2019 Daniel Vrátil <dvratil@kde.org> 0.4-1
+- Fixed support for gpg 2.0
+- Added Swedish translation
+
+
 * Sun Feb 17 2019 Daniel Vrátil <dvratil@kde.org> 0.3-1
 - Fix settings directory (use harbour-passilic)
 - Added Czech translation
