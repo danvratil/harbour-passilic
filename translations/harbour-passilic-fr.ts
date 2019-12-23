@@ -32,11 +32,11 @@
     <name>GeneratePasswordDialog</name>
     <message>
         <source>Password Length</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du mot de passe</translation>
     </message>
     <message>
         <source>Allow non-alphanumeric characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser les caractères non alphanumériques</translation>
     </message>
 </context>
 <context>
@@ -55,26 +55,26 @@
     </message>
     <message>
         <source>New Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau mot de passe</translation>
     </message>
 </context>
 <context>
     <name>NewPasswordDialog</name>
     <message>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom :</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mot de passe :</translation>
     </message>
     <message>
         <source>Additional Info:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autre info :</translation>
     </message>
     <message>
         <source>Generate Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer un mot de passe</translation>
     </message>
 </context>
 <context>
