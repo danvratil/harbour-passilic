@@ -34,6 +34,7 @@ Page {
             width: parent.width
             focus: true
             onTextChanged: model.filter = text
+            Component.onCompleted: { forceActiveFocus(); }
         }
 
         delegate: PasswordDelegate {
