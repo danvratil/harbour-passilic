@@ -102,24 +102,12 @@
 <context>
     <name>PasswordProvider</name>
     <message>
-        <source>Failed to decrypt password: GPG is not available</source>
-        <translation>Échec du déchiffrement du mot de passe : GPG n’est pas disponible</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: Failed to start GPG</source>
-        <translation>Échec du déchiffrement du mot de passe : échec du démarrage de GPG</translation>
+        <source>Cancelled by user.</source>
+        <translation>Annulé par l’utilisateur</translation>
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation>Échec du déchiffrement du mot de passe</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: %1</source>
-        <translation>Échec du déchiffrement du mot de passe : %1</translation>
-    </message>
-    <message>
-        <source>Cancelled by user.</source>
-        <translation>Annulé par l’utilisateur</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

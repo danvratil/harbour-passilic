@@ -102,24 +102,12 @@
 <context>
     <name>PasswordProvider</name>
     <message>
-        <source>Failed to decrypt password: GPG is not available</source>
-        <translation>Kunde inte kryptera lösenordet: GPG inte tillgänglig</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: Failed to start GPG</source>
-        <translation>Kunde inte kryptera lösenordet: Kunde inte starta GPG</translation>
+        <source>Cancelled by user.</source>
+        <translation>Avbrutet av användaren.</translation>
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation>Kunde inte avkryptera lösenordet</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: %1</source>
-        <translation>Kunde inte avkryptera lösenordet: %1</translation>
-    </message>
-    <message>
-        <source>Cancelled by user.</source>
-        <translation>Avbrutet av användaren.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

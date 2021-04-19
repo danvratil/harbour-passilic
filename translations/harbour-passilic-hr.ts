@@ -102,24 +102,12 @@
 <context>
     <name>PasswordProvider</name>
     <message>
-        <source>Failed to decrypt password: GPG is not available</source>
-        <translation>Neuspjelo dešifriranje lozinke: GPG nije dostupan</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: Failed to start GPG</source>
-        <translation>Neuspjelo dešifriranje lozinke: Neuspjelo pokretanje GPG-a</translation>
+        <source>Cancelled by user.</source>
+        <translation>Prekinuto od korisnika.</translation>
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation>Neuspjelo dešifriranje lozinke</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: %1</source>
-        <translation>Neuspjelo dešifriranje lozinke: %1</translation>
-    </message>
-    <message>
-        <source>Cancelled by user.</source>
-        <translation>Prekinuto od korisnika.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -58,7 +58,7 @@ desktop-file-install --delete-original \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %changelog
-* Sat Dev 14 2019 Daniel Vrátil <dvratil@kde.org> 0.4-1
+* Sat Dec 14 2019 Daniel Vrátil <dvratil@kde.org> 0.4-1
 - Fixed support for gpg 2.0
 - Added Swedish translation
 

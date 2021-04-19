@@ -102,24 +102,12 @@
 <context>
     <name>PasswordProvider</name>
     <message>
-        <source>Failed to decrypt password: GPG is not available</source>
-        <translation>解密密码失败: GPG不可用</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: Failed to start GPG</source>
-        <translation>解密密码失败: 未能GPG</translation>
+        <source>Cancelled by user.</source>
+        <translation>已被用戶取消</translation>
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation>解密密码失败</translation>
-    </message>
-    <message>
-        <source>Failed to decrypt password: %1</source>
-        <translation>解密密码失败: %1</translation>
-    </message>
-    <message>
-        <source>Cancelled by user.</source>
-        <translation>已被用戶取消</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
