@@ -19,11 +19,11 @@
 
 #include "passwordsmodel.h"
 #include "passwordprovider.h"
+#include "gpg.h"
 
 #include <QDir>
 #include <QDebug>
 #include <QPointer>
-#include <QProcess>
 #include <QTemporaryFile>
 #include <QFile>
 
@@ -230,6 +230,9 @@ void PasswordsModel::addPassword(const QModelIndex &parent, const QString &name,
                                  const QString &password, const QString &extras)
 {
     auto node = this->node(parent);
+    if (!node) {
+        node = mRoot;
+    }
 
     // Escape forward slash to avoid the name "escaping" the current folder
     QString safeName = name;
@@ -244,27 +247,18 @@ void PasswordsModel::addPassword(const QModelIndex &parent, const QString &name,
     const auto gpgId = QString::fromUtf8(gpgIdFile.readAll()).trimmed();
     gpgIdFile.close();
 
-
-    const auto gpgExe = PasswordProvider::findGpgExecutable();
-    if (gpgExe.path.isEmpty()) {
-        qWarning() << "Failed to find GPG executable";
-        return;
-    }
-
-    QProcess process;
-    process.setProgram(gpgExe.path);
-    process.setArguments({ QStringLiteral("-e"),
-                           QStringLiteral("--no-tty"),
-                           QStringLiteral("-r%1").arg(gpgId),
-                           QStringLiteral("-o%1/%2.gpg").arg(node->path(), safeName)
-                         });
-    process.start(QIODevice::ReadWrite);
-    process.waitForStarted();
-    process.write(password.toUtf8());
+    QString data = password;
     if (!extras.isEmpty()) {
-        process.write("\n");
-        process.write(extras.toUtf8());
+        data += QStringLiteral("\n%1").arg(extras);
     }
-    process.closeWriteChannel();
-    process.waitForFinished();
+
+    auto *task = Gpg::encrypt(QStringLiteral("%1/%2.gpg").arg(node->path(), safeName), Gpg::Key{gpgId}, data);
+    connect(task, &Gpg::EncryptTask::finished,
+            this, [safeName, task]() {
+                if (task->error())  {
+                    qWarning() << "Error:" << task->errorString();
+                    return;
+                }
+                qDebug() << "Successfully encrypted password for" << safeName;
+            });
 }
