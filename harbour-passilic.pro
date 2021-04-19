@@ -2,6 +2,8 @@ TARGET = harbour-passilic
 
 CONFIG += sailfishapp
 
+QT += concurrent
+
 DEFINES += \
     QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII \
@@ -15,6 +17,7 @@ DEFINES += \
 INCLUDEPATH += 3rdparty/kitemmodels/
 
 SOURCES += \
+    src/gpg.cpp \
     src/main.cpp \
     src/abbreviations.cpp \
     src/imageprovider.cpp \
@@ -29,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     src/abbreviations.h \
+    src/gpg.h \
     src/imageprovider.h \
     src/passwordfiltermodel.h \
     src/passwordprovider.h \

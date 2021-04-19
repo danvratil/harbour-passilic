@@ -47,16 +47,6 @@ public:
     bool hasError() const;
     QString error() const;
 
-    struct GpgExecutable {
-        GpgExecutable(const QString &path, int major, int minor)
-            : path(path), major_version(major), minor_version(minor)
-        {}
-        QString path = {};
-        int major_version = 0;
-        int minor_version = 0;
-    };
-
-    static GpgExecutable findGpgExecutable();
 public Q_SLOTS:
     void requestPassword();
     void cancel();
@@ -79,7 +69,6 @@ private:
     friend class PasswordsModel;
     explicit PasswordProvider(const QString &path, QObject *parent = nullptr);
 
-    QProcess *mGpg = nullptr;
     QString mPath;
     QString mPassword;
     QString mError;
