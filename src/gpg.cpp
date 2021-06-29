@@ -217,17 +217,24 @@ void Gpg::DecryptTask::run()
     const auto gpg = findGpgExecutable();
     QProcess process;
     process.setProgram(gpg.path);
-    process.setArguments({QStringLiteral("--quiet"),
-                          QStringLiteral("--batch"),
-                          QStringLiteral("--decrypt"),
-                          QStringLiteral("--no-tty"),
-                          QStringLiteral("--command-fd=1"),
-                          QStringLiteral("--no-encrypt-to"),
-                          QStringLiteral("--compress-algo=none"),
-                          QStringLiteral("--passphrase-fd=0"),
-                          QStringLiteral("--pinentry-mode=loopback"),
-                          QStringLiteral("-r %1").arg(mKey.id),
-                          mFile});
+    QStringList arguments{
+        QStringLiteral("--quiet"),
+        QStringLiteral("--batch"),
+        QStringLiteral("--decrypt"),
+        QStringLiteral("--no-tty"),
+        QStringLiteral("--command-fd=1"),
+        QStringLiteral("--no-encrypt-to"),
+        QStringLiteral("--compress-algo=none"),
+        QStringLiteral("--passphrase-fd=0")
+    };
+
+    if (gpg.minor_version >= 1) {
+        arguments << QStringLiteral("--pinentry-mode=loopback");
+    }
+
+    arguments << QStringLiteral ("-r %1").arg (mKey.id) << mFile;
+
+    process.setArguments(arguments);
     process.start();
     process.waitForStarted();
     process.write(mPassphrase.toUtf8());
