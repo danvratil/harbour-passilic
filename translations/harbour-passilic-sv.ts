@@ -107,7 +107,7 @@
     </message>
     <message>
         <source>Failed to decrypt password</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunde inte avkryptera lösenordet</translation>
     </message>
 </context>
 <context>
